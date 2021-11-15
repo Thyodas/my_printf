@@ -5,9 +5,7 @@
 ** flag_funcs
 */
 
-#include "my_printf.h"
 #include "flags.h"
-#include <unistd.h>
 
 int get_flag_pos(char c)
 {

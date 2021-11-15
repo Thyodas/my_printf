@@ -7,7 +7,6 @@
 
 SRC = main.c \
 	  flag_funcs.c \
-	  flags.h \
 	  main_printf.c
 
 OBJ = $(SRC:.c=.o)

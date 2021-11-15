@@ -9,7 +9,6 @@
 #define ARG_TYPE_H_
 
     #include "my_printf.h"
-    #include <unistd.h>
 
     typedef struct arg_type_s {
         char sign;

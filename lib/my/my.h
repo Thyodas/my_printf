@@ -9,8 +9,6 @@
     #define MY_H_
     #include <stdlib.h>
     #include <unistd.h>
-    #include "stack.h"
-    #include "queue.h"
     int check_overflow(long nb);
     char *concat_params(int argc, char **argv);
     char *my_putnbr_base_str(int nbr, char const *base, char *str);
@@ -53,13 +51,4 @@
     int power(int nb, int power);
     int get_color(unsigned char red, unsigned char green, unsigned char blue);
     int swap_endian_color(int color);
-    void stack_push(stack_t *stack, char *value);
-    void stack_free(stack_t *stack);
-    char *stack_pop(stack_t *stack);
-    stack_t *stack_create(void);
-    char *stack_peek(stack_t *stack);
-    void queue_add(queue_t *queue, char *value);
-    void queue_free(queue_t *queue);
-    char *queue_pop(queue_t *queue);
-    queue_t *queue_create(void);
 #endif /* !MY_H_ */
