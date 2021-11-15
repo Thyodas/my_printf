@@ -6,8 +6,9 @@
 ##
 
 SRC = main.c \
-	  flag_funcs.c \
-	  main_printf.c
+	  utils.c \
+	  main_printf.c \
+	  type_funcs.c
 
 OBJ = $(SRC:.c=.o)
 

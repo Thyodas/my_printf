@@ -11,5 +11,5 @@ int my_printf(const char *format, ...);
 
 int main(void)
 {
-    my_printf("Hello world! %+-0 s ");
+    my_printf("Hello world! %0s%s", "salut", " comment ça va ?");
 }

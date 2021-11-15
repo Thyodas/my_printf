@@ -9,8 +9,10 @@
 #include <stdio.h>
 #include "my_printf.h"
 #include "my.h"
+#include "arg_type.h"
 
 int get_flag_pos(char c);
+arg_type_t get_type(const char *str);
 
 void print_data(printf_data_t *data) {
     printf("-: %i\n", data->active_flags[0]);
@@ -20,21 +22,26 @@ void print_data(printf_data_t *data) {
     printf("#: %i\n", data->active_flags[4]);
 }
 
-int flag_handling(const char *format, va_list args, printf_data_t *data)
+int flag_handling(const char *format, printf_data_t *data)
 {
     int flag_pos = 0;
-    int i = 0;
 
-    for (; format[i] != '\0' && format[i] != 's' ; ++i) {
-        flag_pos = get_flag_pos(format[i]);
-        my_putchar(format[i]);
-        my_put_nbr(flag_pos);
-        my_putchar('\n');
-        //printf("flag_pos %c: %i\n", format[i], flag_pos);
-        if (flag_pos < 5)
-            data->active_flags[flag_pos] = 1;
+    flag_pos = get_flag_pos(format[0]);
+    if (flag_pos != -1) {
+        data->active_flags[flag_pos] = 1;
+        return (0);
     }
-    return (i);
+    return (1);
+}
+
+char *type_handling(const char *format, printf_data_t *data, va_list args)
+{
+    arg_type_t type = get_type(format);
+
+    if (type.sign != NULL) {
+        return (type.func(va_arg(args, void *), data));
+    }
+    return ("");
 }
 
 void init_flags(printf_data_t *data)
@@ -47,30 +54,33 @@ int format_identifier(const char *format, va_list args)
 {
     int flag_size = 0;
     int i = 0;
-    printf_data_t *data = malloc(sizeof(print_data));
+    char *arg_format = "";
+    printf_data_t *data = malloc(sizeof(printf_data_t));
     init_flags(data);
-    //print_data(&data);
     for (; format[i] != '\0' ; ++i) {
-        //printf("test");
         flag_size = 0;
-        flag_size += flag_handling(&format[i], args, data);
-        //flag_size += min_width_handling(format, args);
-        //flag_size += arg_handling(format, args);
-        i += flag_size;
+        if (flag_handling(&format[i], data))
+            arg_format = type_handling(&format[i], data, args);
+        my_putstr(arg_format);
     }
-    //print_data(&data);
+    free(data);
     return (i);
 }
 
 int my_printf_parser(const char *format, va_list args)
 {
     int i = 0;
+    int format_len = my_strlen(format);
+    int last_write = 0;
 
-    for (; format[i] != '\0'; ++i) {
+    for (; i < format_len ; ++i) {
         if (format[i] == '%') {
+            write(1, &format[last_write], i - last_write);
             i += format_identifier(&format[i + 1], args);
+            last_write = i;
         }
     }
+    return (0);
 }
 
 int my_printf(const char *format, ...)
