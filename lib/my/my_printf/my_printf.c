@@ -13,6 +13,8 @@
 
 int get_flag_pos(char c);
 arg_type_t get_type(const char *str);
+printf_data_t *create_data_struct();
+void show_data(printf_data_t *data);
 
 int flag_handling(const char *format, printf_data_t *data)
 {
@@ -34,21 +36,6 @@ char *type_handling(const char *format, printf_data_t *data, va_list args)
         return (type.func(args, data));
     }
     return ("");
-}
-
-printf_data_t *create_data_struct()
-{
-    printf_data_t *data = malloc(sizeof(printf_data_t));
-
-    for (int i = 0 ; i < 5 ; ++i)
-        data->active_flags[i] = 0;
-    data->str = "";
-    return (data);
-}
-
-void show_data(printf_data_t *data)
-{
-    my_putstr(data->str);
 }
 
 int format_identifier(const char *format, va_list args)

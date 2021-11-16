@@ -29,3 +29,18 @@ arg_type_t get_type(const char *str)
     }
     return (ARG_TYPE_LIST[i]);
 }
+
+printf_data_t *create_data_struct()
+{
+    printf_data_t *data = malloc(sizeof(printf_data_t));
+
+    for (int i = 0 ; i < 5 ; ++i)
+        data->active_flags[i] = 0;
+    data->str = "";
+    return (data);
+}
+
+void show_data(printf_data_t *data)
+{
+    my_putstr(data->str);
+}
