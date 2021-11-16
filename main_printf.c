@@ -39,30 +39,38 @@ char *type_handling(const char *format, printf_data_t *data, va_list args)
     arg_type_t type = get_type(format);
 
     if (type.sign != NULL) {
-        return (type.func(va_arg(args, void *), data));
+        return (type.func(args, data));
     }
     return ("");
 }
 
-void init_flags(printf_data_t *data)
+printf_data_t *create_data_struct()
 {
+    printf_data_t *data = malloc(sizeof(printf_data_t));
+
     for (int i = 0 ; i < 5 ; ++i)
         data->active_flags[i] = 0;
+    data->str = "";
+    return (data);
+}
+
+void show_data(printf_data_t *data)
+{
+    my_putstr(data->str);
 }
 
 int format_identifier(const char *format, va_list args)
 {
     int flag_size = 0;
     int i = 0;
-    char *arg_format = "";
-    printf_data_t *data = malloc(sizeof(printf_data_t));
-    init_flags(data);
-    for (; format[i] != '\0' ; ++i) {
+    printf_data_t *data = create_data_struct();
+
+    for (; format[i] != '\0' && data->str[0] == '\0' ; ++i) {
         flag_size = 0;
         if (flag_handling(&format[i], data))
-            arg_format = type_handling(&format[i], data, args);
-        my_putstr(arg_format);
+            data->str = type_handling(&format[i], data, args);
     }
+    show_data(data);
     free(data);
     return (i);
 }
@@ -70,16 +78,16 @@ int format_identifier(const char *format, va_list args)
 int my_printf_parser(const char *format, va_list args)
 {
     int i = 0;
-    int format_len = my_strlen(format);
     int last_write = 0;
 
-    for (; i < format_len ; ++i) {
+    for (; format[i] != '\0' ; ++i) {
         if (format[i] == '%') {
             write(1, &format[last_write], i - last_write);
             i += format_identifier(&format[i + 1], args);
-            last_write = i;
+            last_write = i + 1;
         }
     }
+    write(1, &format[last_write], i - last_write);
     return (0);
 }
 
@@ -87,7 +95,6 @@ int my_printf(const char *format, ...)
 {
     va_list args;
     va_start(args, format);
-
 
     my_printf_parser(format, args);
     va_end(args);

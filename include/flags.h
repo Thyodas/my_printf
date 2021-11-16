@@ -16,6 +16,6 @@
     #define F_POS_BLANK_POSITIVE 3
     #define F_POS_PREFIX 4
 
-    const char FLAG_LIST[] = "-0+ #\0";
+    static const char FLAG_LIST[] = "-0+ #\0";
 
 #endif /* !FLAGS_H_ */
