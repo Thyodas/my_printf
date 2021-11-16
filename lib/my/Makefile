@@ -44,7 +44,13 @@ SRC = check_overflow.c \
 	  my_strcpy.c \
 	  power.c \
 	  swap_endian_color.c \
-	  get_color.c
+	  get_color.c \
+	  my_printf/my_printf.c \
+	  my_printf/struct_utils.c \
+	  my_printf/type_base.c \
+	  my_printf/type_char.c \
+	  my_printf/type_num.c \
+	  my_printf/type_utils.c
 
 OBJ = $(SRC:.c=.o)
 
