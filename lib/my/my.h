@@ -51,4 +51,6 @@
     int power(int nb, int power);
     int get_color(unsigned char red, unsigned char green, unsigned char blue);
     int swap_endian_color(int color);
+    int my_printf(const char *format, ...);
+
 #endif /* !MY_H_ */
