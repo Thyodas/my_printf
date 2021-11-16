@@ -21,12 +21,12 @@
     char *type_decimal(va_list args, printf_data_t *data);
     char *type_octal(va_list args, printf_data_t *data);
     char *type_binary(va_list args, printf_data_t *data);
-    char *type_hexa(void *value, printf_data_t *data);
-    char *type_hexa_upper(void *value, printf_data_t *data);
-    /*char *type_printable(void *str, printf_data_t *data);
-    char *type_character(void *c, printf_data_t *data);
-    char *type_unsigned_int(void *value, printf_data_t *data);
-    char *type_pointer(void *pointer, printf_data_t *data);*/
+    char *type_hexa(va_list args, printf_data_t *data);
+    char *type_hexa_upper(va_list args, printf_data_t *data);
+    char *type_unsigned_int(va_list args, printf_data_t *data);
+    char *type_char(va_list args, printf_data_t *data);
+    char *type_pointer(va_list args, printf_data_t *data);
+    char *type_printable(va_list args, printf_data_t *data);
 
     static const arg_type_t ARG_TYPE_LIST[] = {
         {"s", &type_string, 1},
@@ -36,11 +36,13 @@
         {"b", &type_binary, 1},
         {"x", &type_hexa, 1},
         {"X", &type_hexa_upper, 1},
-        {NULL, NULL, NULL}
+        {"u", &type_unsigned_int, 1},
+        {"c", &type_char, 1},
+        {"p", &type_pointer, 1},
+        {"S", &type_printable, 1},
+        {(void *)NULL, (void *)NULL, 0}
     };
 
-            /*{"S", &type_printable, 1},
-        {"u", &type_unsigned_int, 1},
-        {"p", &type_pointer, 1},*/
+            /*{"S", &type_printable, 1},*/
 
 #endif /* !ARG_TYPE_H */

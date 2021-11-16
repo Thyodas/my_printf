@@ -20,7 +20,6 @@ char *my_addchar(char *src, char c)
         dest[i] = src[i];
     dest[i] = c;
     dest[i + 1] = '\0';
-    //free(src);
     return dest;
 }
 
@@ -30,7 +29,6 @@ char *my_strint_base(int nbr, char *str, char const *base)
     int new_nbr = nbr;
     int remainder = 0;
     char *str_ptr = str;
-    char *to_free = NULL;
 
     if (nbr == 0)
         return (my_addchar(str, '0'));
@@ -39,8 +37,6 @@ char *my_strint_base(int nbr, char *str, char const *base)
         new_nbr /= len_base;
         str_ptr = my_addchar(str_ptr, base[remainder]);
     }
-    to_free = str_ptr;
-    //free(to_free);
     return (str_ptr);
 }
 
@@ -50,7 +46,23 @@ char *my_struint_base(unsigned int nbr, char *str, char const *base)
     unsigned int new_nbr = nbr;
     unsigned int remainder = 0;
     char *str_ptr = str;
-    char *to_free = NULL;
+
+    if (nbr == 0)
+        return (my_addchar(str, '0'));
+    while (new_nbr != 0) {
+        remainder = new_nbr % len_base;
+        new_nbr /= len_base;
+        str_ptr = my_addchar(str_ptr, base[remainder]);
+    }
+    return (str_ptr);
+}
+
+char *my_strlong_base(long nbr, char *str, char const *base)
+{
+    int len_base = my_strlen(base);
+    long new_nbr = nbr;
+    long remainder = 0;
+    char *str_ptr = str;
 
     if (nbr == 0)
         return (my_addchar(str, '0'));
@@ -59,8 +71,6 @@ char *my_struint_base(unsigned int nbr, char *str, char const *base)
         new_nbr /= len_base;
         str_ptr = my_addchar(str_ptr, base[remainder]);
     }
-    to_free = str_ptr;
-    //free(to_free);
     return (str_ptr);
 }
 
@@ -94,7 +104,7 @@ char *type_decimal(va_list args, printf_data_t *data)
 
 char *type_octal(va_list args, printf_data_t *data)
 {
-    int value = va_arg(args, int);
+    unsigned int value = va_arg(args, unsigned int);
     char *result = my_strdup("");
 
     result = my_struint_base(value, result, "01234567");
@@ -106,7 +116,7 @@ char *type_octal(va_list args, printf_data_t *data)
 
 char *type_hexa(va_list args, printf_data_t *data)
 {
-    int value = va_arg(args, int);
+    unsigned int value = va_arg(args, unsigned int);
     char *result = my_strdup("");
 
     result = my_struint_base(value, result, "0123456789abcdef");
@@ -120,7 +130,7 @@ char *type_hexa(va_list args, printf_data_t *data)
 
 char *type_hexa_upper(va_list args, printf_data_t *data)
 {
-    int value = va_arg(args, int);
+    unsigned int value = va_arg(args, unsigned int);
     char *result = my_strdup("");
 
     result = my_struint_base(value, result, "0123456789ABCDEF");
@@ -134,10 +144,46 @@ char *type_hexa_upper(va_list args, printf_data_t *data)
 
 char *type_binary(va_list args, printf_data_t *data)
 {
-    int value = va_arg(args, int);
+    unsigned int value = va_arg(args, unsigned int);
     char *result = my_strdup("");
 
     result = my_struint_base(value, result, "01");
     my_revstr(result);
     return (result);
+}
+
+char *type_unsigned_int(va_list args, printf_data_t *data)
+{
+    unsigned int value = va_arg(args, unsigned int);
+    char *result = my_strdup("");
+
+    result = my_struint_base(value, result, "0123456789");
+    my_revstr(result);
+    return (result);
+}
+
+char *type_pointer(va_list args, printf_data_t *data)
+{
+    long value = va_arg(args, long);
+    char *result = my_strdup("");
+
+    result = my_strlong_base(value, result, "0123456789abcdef");
+    result = my_addchar(result, 'x');
+    result = my_addchar(result, '0');
+    my_revstr(result);
+    return (result);
+}
+
+char *type_char(va_list args, printf_data_t *data)
+{
+    char value = va_arg(args, int);
+    char *result = my_strdup("a");
+
+    result[0] = value;
+    return (result);
+}
+
+char *type_printable(va_list args, printf_data_t *data)
+{
+    return (va_arg(args, char *));
 }
