@@ -1,0 +1,29 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: install_criterion
+      run: |
+        sudo apt-get update
+        sudo add-apt-repository ppa:snaipewastaken/ppa 
+        sudo apt-get update 
+        sudo apt-get install criterion-dev
+    - name: make
+      run: make
+    - name: tests_run
+      run: make tests_run
+    - name: install_gcovr
+      run: pip install gcovr
+    - name: show_coverage
+      run: gcovr --exclude tests/
