@@ -24,6 +24,7 @@ void show_data(printf_data_t *data)
 {
     int len = my_strlen(data->str);
     int formatted_len = data->min_field_width - len;
+
     if (data->active_flags[F_POS_LEFT_JUSTIFY])
         my_putstr(data->str);
     for (int i = 0 ; i < formatted_len ; ++i)
@@ -43,7 +44,7 @@ int format_identifier(const char *format, va_list args)
             precision_handling(&format[i], data, args);
         if (data->precision == 0 && data->min_field_width == 0)
             min_width_handling(&format[i], data, args);
-        else
+        if (data->precision == 0 && data->min_field_width == 0)
             flag_len = flag_handling(&format[i], data);
         data->str = type_handling(&format[i], data, args);
     }

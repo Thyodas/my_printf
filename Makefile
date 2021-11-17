@@ -53,6 +53,8 @@ SRC = lib/my/check_overflow.c \
 	  lib/my/my_printf/type_utils.c \
 	  lib/my/my_printf/printf_handling.c
 
+TEST_FILES = tests/test_my_printf.c
+
 OBJ = $(SRC:.c=.o)
 
 NAME = libmy.a
@@ -73,4 +75,9 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: fclean all re clean $(NAME)
+tests_run: all
+		   gcc -Iinclude -o unit_tests $(TEST_FILES) -Llib/my -lmy\
+		   --coverage -lcriterion
+		   ./unit_tests
+
+.PHONY: fclean all re clean tests_run $(NAME)

@@ -48,6 +48,8 @@ int get_nbr_len(const char *format)
 int min_width_handling(const char *format, printf_data_t *data, va_list args)
 {
     int len = get_nbr_len(format);
+    if (len <= 0 && format[0] != '0')
+        return (0);
     int value = my_getnbr(format);
 
     data->min_field_width = value;
@@ -59,6 +61,8 @@ int precision_handling(const char *format, printf_data_t *data, va_list args)
     if (format[0] != '.')
         return (0);
     int len = get_nbr_len(&format[1]);
+    if (len <= 0)
+        return (0);
     int value = my_getnbr(&format[1]);
 
     data->precision = value;
