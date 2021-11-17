@@ -45,6 +45,4 @@
         {(void *)NULL, (void *)NULL, 0}
     };
 
-            /*{"S", &type_printable, 1},*/
-
 #endif /* !ARG_TYPE_H */

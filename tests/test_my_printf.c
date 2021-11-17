@@ -8,6 +8,7 @@
 
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
+#include "my.h"
 
 int my_printf(const char *format, ...);
 
@@ -117,4 +118,14 @@ Test(my_printf, modulo, .init = redirect_all_std)
 {
     my_printf("aba%+-0#%dad");
     cr_assert_stdout_eq_str("aba%dad");
+}
+
+Test(my_printf, printable, .init = redirect_all_std)
+{
+    char str[3];
+    my_strcpy(str , "ab");
+    str[0] = 6;
+    str[1] = 127;
+    my_printf("%S\n", str);
+    cr_assert_stdout_eq_str("\\006\\177\n");
 }
