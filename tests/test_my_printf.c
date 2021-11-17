@@ -54,6 +54,12 @@ Test(my_printf, int_format2, .init = redirect_all_std)
     cr_assert_stdout_eq_str("hello 1234\n");
 }
 
+Test(my_printf, int_format_neg, .init = redirect_all_std)
+{
+    my_printf("hello %d\n", -1234);
+    cr_assert_stdout_eq_str("hello -1234\n");
+}
+
 Test(my_printf, int_format_space, .init = redirect_all_std)
 {
     my_printf("hello %10d\n", 1234);
@@ -66,10 +72,22 @@ Test(my_printf, int_format_space_positive, .init = redirect_all_std)
     cr_assert_stdout_eq_str("hello  1234\n");
 }
 
+Test(my_printf, int_format_space_zero_positive, .init = redirect_all_std)
+{
+    my_printf("hello % d\n", 0);
+    cr_assert_stdout_eq_str("hello  0\n");
+}
+
 Test(my_printf, int_format_plus_positive, .init = redirect_all_std)
 {
     my_printf("hello %+d\n", 1234);
     cr_assert_stdout_eq_str("hello +1234\n");
+}
+
+Test(my_printf, int_format_plus_zero_positive, .init = redirect_all_std)
+{
+    my_printf("hello %+d\n", 0);
+    cr_assert_stdout_eq_str("hello +0\n");
 }
 
 Test(my_printf, int_format_space_left, .init = redirect_all_std)
@@ -128,4 +146,28 @@ Test(my_printf, printable, .init = redirect_all_std)
     str[1] = 127;
     my_printf("%S\n", str);
     cr_assert_stdout_eq_str("\\006\\177\n");
+}
+
+Test(my_printf, int_zero_padding_neg, .init = redirect_all_std)
+{
+    my_printf("hello %0+10d\n", -1234);
+    cr_assert_stdout_eq_str("hello -000001234\n");
+}
+
+Test(my_printf, int_zero_padding_positive, .init = redirect_all_std)
+{
+    my_printf("hello %0+10d\n", 1234);
+    cr_assert_stdout_eq_str("hello +000001234\n");
+}
+
+Test(my_printf, int_zero_padding_blank, .init = redirect_all_std)
+{
+    my_printf("hello %0 10d\n", 1234);
+    cr_assert_stdout_eq_str("hello  000001234\n");
+}
+
+Test(my_printf, int_blank_padding_blank, .init = redirect_all_std)
+{
+    my_printf("hello % 10d\n", 1234);
+    cr_assert_stdout_eq_str("hello       1234\n");
 }

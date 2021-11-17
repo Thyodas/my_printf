@@ -23,12 +23,23 @@ int precision_handling(const char *format, printf_data_t *data, va_list args);
 void show_data(printf_data_t *data)
 {
     int len = my_strlen(data->str);
+    int i = 0;
     int formatted_len = data->min_field_width - len;
+    char symbol = ' ';
 
     if (data->active_flags[F_POS_LEFT_JUSTIFY])
         my_putstr(data->str);
-    for (int i = 0 ; i < formatted_len ; ++i)
-        my_putchar(data->active_flags[F_POS_ZERO_PADDED] ? '0' : ' ');
+    else if (data->active_flags[F_POS_ZERO_PADDED] && data->is_nb) {
+        if (data->str[0] == '+' || data->str[0] == '-'
+        || data->str[0] == ' ') {
+            i++;
+            my_putchar(data->str[0]);
+            data->str[0] = '0';
+        }
+        symbol = '0';
+    }
+    for (; i < formatted_len ; ++i)
+        my_putchar(symbol);
     if (!data->active_flags[F_POS_LEFT_JUSTIFY])
         my_putstr(data->str);
 }
@@ -36,7 +47,6 @@ void show_data(printf_data_t *data)
 int format_identifier(const char *format, va_list args)
 {
     int i = 0;
-    int flag_len = 0;
     printf_data_t *data = create_data_struct();
 
     for (; format[i] != '\0' && data->str[0] == '\0' ; ++i) {
@@ -45,7 +55,7 @@ int format_identifier(const char *format, va_list args)
         if (data->precision == 0 && data->min_field_width == 0)
             min_width_handling(&format[i], data, args);
         if (data->precision == 0 && data->min_field_width == 0)
-            flag_len = flag_handling(&format[i], data);
+            flag_handling(&format[i], data);
         data->str = type_handling(&format[i], data, args);
     }
     show_data(data);

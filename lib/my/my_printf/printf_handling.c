@@ -18,7 +18,7 @@ void show_data(printf_data_t *data);
 int flag_handling(const char *format, printf_data_t *data)
 {
     int flag_pos = 0;
-
+    //printf("\n=== %c ===\n", format[0]);
     flag_pos = get_flag_pos(format[0]);
     if (flag_pos != -1) {
         data->active_flags[flag_pos] = 1;
@@ -48,7 +48,7 @@ int get_nbr_len(const char *format)
 int min_width_handling(const char *format, printf_data_t *data, va_list args)
 {
     int len = get_nbr_len(format);
-    if (len <= 0 && format[0] != '0')
+    if (len <= 0 || format[0] == '0' || format[0] == '-')
         return (0);
     int value = my_getnbr(format);
 

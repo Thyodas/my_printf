@@ -13,6 +13,7 @@
         char *str;
         int min_field_width;
         int precision;
+        int is_nb;
         int active_flags[5];
     } printf_data_t;
 

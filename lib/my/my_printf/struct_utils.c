@@ -39,5 +39,6 @@ printf_data_t *create_data_struct()
     data->str = "";
     data->min_field_width = 0;
     data->precision = 0;
+    data->is_nb = 0;
     return (data);
 }
