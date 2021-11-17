@@ -11,6 +11,8 @@
     #include <unistd.h>
     typedef struct printf_data_s {
         char *str;
+        int min_field_width;
+        int precision;
         int active_flags[5];
     } printf_data_t;
 

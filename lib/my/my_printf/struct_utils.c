@@ -37,10 +37,7 @@ printf_data_t *create_data_struct()
     for (int i = 0 ; i < 5 ; ++i)
         data->active_flags[i] = 0;
     data->str = "";
+    data->min_field_width = 0;
+    data->precision = 0;
     return (data);
-}
-
-void show_data(printf_data_t *data)
-{
-    my_putstr(data->str);
 }

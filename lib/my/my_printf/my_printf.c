@@ -7,6 +7,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include "include/flags.h"
 #include "include/my_printf.h"
 #include "../my.h"
 #include "include/arg_type.h"
@@ -14,40 +15,37 @@
 int get_flag_pos(char c);
 arg_type_t get_type(const char *str);
 printf_data_t *create_data_struct();
-void show_data(printf_data_t *data);
+int flag_handling(const char *format, printf_data_t *data);
+char *type_handling(const char *format, printf_data_t *data, va_list args);
+int min_width_handling(const char *format, printf_data_t *data, va_list args);
+int precision_handling(const char *format, printf_data_t *data, va_list args);
 
-int flag_handling(const char *format, printf_data_t *data)
+void show_data(printf_data_t *data)
 {
-    int flag_pos = 0;
-
-    flag_pos = get_flag_pos(format[0]);
-    if (flag_pos != -1) {
-        data->active_flags[flag_pos] = 1;
-        return (0);
-    }
-    return (1);
-}
-
-char *type_handling(const char *format, printf_data_t *data, va_list args)
-{
-    arg_type_t type = get_type(format);
-
-    if (type.sign != NULL) {
-        return (type.func(args, data));
-    }
-    return ("");
+    int len = my_strlen(data->str);
+    int formatted_len = data->min_field_width - len;
+    if (data->active_flags[F_POS_LEFT_JUSTIFY])
+        my_putstr(data->str);
+    for (int i = 0 ; i < formatted_len ; ++i)
+        my_putchar(data->active_flags[F_POS_ZERO_PADDED] ? '0' : ' ');
+    if (!data->active_flags[F_POS_LEFT_JUSTIFY])
+        my_putstr(data->str);
 }
 
 int format_identifier(const char *format, va_list args)
 {
-    int flag_size = 0;
     int i = 0;
+    int flag_len = 0;
     printf_data_t *data = create_data_struct();
 
     for (; format[i] != '\0' && data->str[0] == '\0' ; ++i) {
-        flag_size = 0;
-        if (flag_handling(&format[i], data))
-            data->str = type_handling(&format[i], data, args);
+        if (data->precision == 0)
+            precision_handling(&format[i], data, args);
+        if (data->precision == 0 && data->min_field_width == 0)
+            min_width_handling(&format[i], data, args);
+        else
+            flag_len = flag_handling(&format[i], data);
+        data->str = type_handling(&format[i], data, args);
     }
     show_data(data);
     free(data);

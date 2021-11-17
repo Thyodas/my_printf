@@ -27,6 +27,7 @@
     char *type_char(va_list args, printf_data_t *data);
     char *type_pointer(va_list args, printf_data_t *data);
     char *type_printable(va_list args, printf_data_t *data);
+    char *type_modulo(va_list args, printf_data_t *data);
 
     static const arg_type_t ARG_TYPE_LIST[] = {
         {"s", &type_string, 1},
@@ -40,6 +41,7 @@
         {"c", &type_char, 1},
         {"p", &type_pointer, 1},
         {"S", &type_printable, 1},
+        {"%", &type_modulo, 1},
         {(void *)NULL, (void *)NULL, 0}
     };
 

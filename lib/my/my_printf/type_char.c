@@ -27,3 +27,10 @@ char *type_printable(va_list args, printf_data_t *data)
 {
     return (va_arg(args, char *));
 }
+
+char *type_modulo(va_list args, printf_data_t *data)
+{
+    char *result = my_strdup("%");
+
+    return (result);
+}
