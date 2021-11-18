@@ -25,7 +25,7 @@ int flag_handling(const char *format, printf_data_t *data)
     return (i);
 }
 
-char *type_handling(const char *format, printf_data_t *data, va_list args)
+int type_handling(const char *format, printf_data_t *data, va_list args)
 {
     arg_type_t type = get_type(format);
 

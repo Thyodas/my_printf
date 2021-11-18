@@ -29,6 +29,8 @@
     char *type_printable(va_list args, printf_data_t *data);
     char *type_modulo(va_list args, printf_data_t *data);
     char *type_float(va_list args, printf_data_t *data);
+    char *type_long(va_list args, printf_data_t *data);
+    char *type_unsigned_long(va_list args, printf_data_t *data);
 
     static const arg_type_t ARG_TYPE_LIST[] = {
         {"s", &type_string, 1},
@@ -44,6 +46,8 @@
         {"S", &type_printable, 1},
         {"%", &type_modulo, 1},
         {"f", &type_float, 1},
+        {"ld", &type_long, 2},
+        {"lu", &type_unsigned_long, 2},
         {(void *)NULL, (void *)NULL, 0}
     };
 

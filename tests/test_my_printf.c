@@ -184,3 +184,33 @@ Test(my_printf, float_basic, .init = redirect_all_std)
     my_printf("%10.10f\n", test);
     cr_assert_stdout_eq_str("1234.123413\n");
 }
+
+Test(my_printf, long_format, .init = redirect_all_std)
+{
+    my_printf("hello %ld\n", 6236788723886773);
+    cr_assert_stdout_eq_str("hello 6236788723886773\n");
+}
+
+Test(my_printf, long_format_hard, .init = redirect_all_std)
+{
+    my_printf("hello %020ld\n", -6236788723886773);
+    cr_assert_stdout_eq_str("hello -0006236788723886773\n");
+}
+
+Test(my_printf, long_unsigned_format, .init = redirect_all_std)
+{
+    my_printf("hello %lu\n", -623678872388);
+    cr_assert_stdout_eq_str("hello 18446743450030679228\n");
+}
+
+Test(my_printf, long_unsigned_format_hard, .init = redirect_all_std)
+{
+    my_printf("hello %020lu\n", 6236788723886773);
+    cr_assert_stdout_eq_str("hello 00006236788723886773\n");
+}
+
+Test(my_printf, long_unsigned_format_hard2, .init = redirect_all_std)
+{
+    my_printf("hello %-020lu\n", 6236788723886773);
+    cr_assert_stdout_eq_str("hello 6236788723886773    \n");
+}

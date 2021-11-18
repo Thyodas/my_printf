@@ -16,7 +16,7 @@ int get_flag_pos(char c);
 arg_type_t get_type(const char *str);
 printf_data_t *create_data_struct(void);
 int flag_handling(const char *format, printf_data_t *data);
-char *type_handling(const char *format, printf_data_t *data, va_list args);
+int type_handling(const char *format, printf_data_t *data, va_list args);
 int min_width_handling(const char *format, printf_data_t *data, va_list args);
 int precision_handling(const char *format, printf_data_t *data, va_list args);
 
@@ -47,16 +47,18 @@ void show_data(printf_data_t *data)
 int format_identifier(const char *format, va_list args)
 {
     int i = 0;
+    int type_size = 0;
     printf_data_t *data = create_data_struct();
 
     i += flag_handling(&format[i], data);
     i += min_width_handling(&format[i], data, args);
     i += precision_handling(&format[i], data, args);
-    if (!type_handling(&format[i], data, args))
+    type_size = type_handling(&format[i], data, args);
+    if (type_size <= 0)
         return (0);
     show_data(data);
     free(data);
-    return (i + 2);
+    return (i + type_size + 1);
 }
 
 int my_printf_parser(const char *format, va_list args)
