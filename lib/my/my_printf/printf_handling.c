@@ -17,14 +17,12 @@ void show_data(printf_data_t *data);
 
 int flag_handling(const char *format, printf_data_t *data)
 {
-    int flag_pos = 0;
-    //printf("\n=== %c ===\n", format[0]);
-    flag_pos = get_flag_pos(format[0]);
-    if (flag_pos != -1) {
-        data->active_flags[flag_pos] = 1;
-        return (1);
+    int i = 0;
+
+    for (; get_flag_pos(format[i]) != -1 ; ++i) {
+        data->active_flags[get_flag_pos(format[i])] = 1;
     }
-    return (0);
+    return (i);
 }
 
 char *type_handling(const char *format, printf_data_t *data, va_list args)
@@ -32,9 +30,10 @@ char *type_handling(const char *format, printf_data_t *data, va_list args)
     arg_type_t type = get_type(format);
 
     if (type.sign != NULL) {
-        return (type.func(args, data));
+        data->str = type.func(args, data);
+        return (1);
     }
-    return ("");
+    return (0);
 }
 
 int get_nbr_len(const char *format)
@@ -48,23 +47,22 @@ int get_nbr_len(const char *format)
 int min_width_handling(const char *format, printf_data_t *data, va_list args)
 {
     int len = get_nbr_len(format);
-    if (len <= 0 || format[0] == '0' || format[0] == '-')
+    if (len <= 0 || format[0] == '-')
         return (0);
     int value = my_getnbr(format);
 
     data->min_field_width = value;
-    return (len - 1);
+    return (len);
 }
 
 int precision_handling(const char *format, printf_data_t *data, va_list args)
 {
-    if (format[0] != '.')
-        return (0);
     int len = get_nbr_len(&format[1]);
-    if (len <= 0)
+
+    if (format[0] != '.' || len <= 0)
         return (0);
     int value = my_getnbr(&format[1]);
 
     data->precision = value;
-    return (len);
+    return (len + 1);
 }

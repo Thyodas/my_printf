@@ -22,14 +22,14 @@ int precision_handling(const char *format, printf_data_t *data, va_list args);
 
 void show_data(printf_data_t *data)
 {
-    int len = my_strlen(data->str);
     int i = 0;
-    int formatted_len = data->min_field_width - len;
+    int formatted_len = data->min_field_width - my_strlen(data->str);
     char symbol = ' ';
 
     if (data->active_flags[F_POS_LEFT_JUSTIFY])
         my_putstr(data->str);
-    else if (data->active_flags[F_POS_ZERO_PADDED] && data->is_nb) {
+    if (!data->active_flags[F_POS_LEFT_JUSTIFY]
+    && data->active_flags[F_POS_ZERO_PADDED] && data->is_nb) {
         if (data->str[0] == '+' || data->str[0] == '-'
         || data->str[0] == ' ') {
             i++;
@@ -49,18 +49,14 @@ int format_identifier(const char *format, va_list args)
     int i = 0;
     printf_data_t *data = create_data_struct();
 
-    for (; format[i] != '\0' && data->str[0] == '\0' ; ++i) {
-        if (data->precision == 0)
-            precision_handling(&format[i], data, args);
-        if (data->precision == 0 && data->min_field_width == 0)
-            min_width_handling(&format[i], data, args);
-        if (data->precision == 0 && data->min_field_width == 0)
-            flag_handling(&format[i], data);
-        data->str = type_handling(&format[i], data, args);
-    }
+    i += flag_handling(&format[i], data);
+    i += min_width_handling(&format[i], data, args);
+    i += precision_handling(&format[i], data, args);
+    if (!type_handling(&format[i], data, args))
+        return (0);
     show_data(data);
     free(data);
-    return (i);
+    return (i + 2);
 }
 
 int my_printf_parser(const char *format, va_list args)
@@ -72,7 +68,7 @@ int my_printf_parser(const char *format, va_list args)
         if (format[i] == '%') {
             write(1, &format[last_write], i - last_write);
             i += format_identifier(&format[i + 1], args);
-            last_write = i + 1;
+            last_write = i;
         }
     }
     write(1, &format[last_write], i - last_write);

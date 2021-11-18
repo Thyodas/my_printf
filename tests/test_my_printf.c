@@ -171,3 +171,9 @@ Test(my_printf, int_blank_padding_blank, .init = redirect_all_std)
     my_printf("hello % 10d\n", 1234);
     cr_assert_stdout_eq_str("hello       1234\n");
 }
+
+Test(my_printf, int_blank_padding_positive, .init = redirect_all_std)
+{
+    my_printf("hello %+ 10d\n", 1234);
+    cr_assert_stdout_eq_str("hello      +1234\n");
+}
