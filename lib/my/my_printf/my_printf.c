@@ -20,10 +20,9 @@ int type_handling(const char *format, printf_data_t *data, va_list args);
 int min_width_handling(const char *format, printf_data_t *data, va_list args);
 int precision_handling(const char *format, printf_data_t *data, va_list args);
 
-void show_data(printf_data_t *data)
+int show_data(printf_data_t *data)
 {
     int i = 0;
-    int formatted_len = data->min_field_width - my_strlen(data->str);
     char symbol = ' ';
 
     if (data->active_flags[F_POS_LEFT_JUSTIFY])
@@ -38,13 +37,14 @@ void show_data(printf_data_t *data)
         }
         symbol = '0';
     }
-    for (; i < formatted_len ; ++i)
+    for (; i < data->min_field_width - my_strlen(data->str) ; ++i)
         my_putchar(symbol);
     if (!data->active_flags[F_POS_LEFT_JUSTIFY])
         my_putstr(data->str);
+    return (MAX(data->min_field_width, my_strlen(data->str)));
 }
 
-int format_identifier(const char *format, va_list args)
+int format_identifier(const char *format, va_list args, int *written)
 {
     int i = 0;
     int type_size = 0;
@@ -56,7 +56,7 @@ int format_identifier(const char *format, va_list args)
     type_size = type_handling(&format[i], data, args);
     if (type_size <= 0)
         return (0);
-    show_data(data);
+    *written += show_data(data);
     free(data);
     return (i + type_size + 1);
 }
@@ -64,25 +64,30 @@ int format_identifier(const char *format, va_list args)
 int my_printf_parser(const char *format, va_list args)
 {
     int i = 0;
+    int written = 0;
     int last_write = 0;
 
     for (; format[i] != '\0' ; ++i) {
         if (format[i] == '%') {
             write(1, &format[last_write], i - last_write);
-            i += format_identifier(&format[i + 1], args);
+            written += i - last_write;
+            i += format_identifier(&format[i + 1], args, &written);
             last_write = i;
         }
     }
     write(1, &format[last_write], i - last_write);
-    return (0);
+    written += i - last_write;
+    return (written);
 }
 
 int my_printf(const char *format, ...)
 {
+    int printed = 0;
+
     va_list args;
     va_start(args, format);
 
-    my_printf_parser(format, args);
+    printed = my_printf_parser(format, args);
     va_end(args);
-    return (0);
+    return (printed);
 }
