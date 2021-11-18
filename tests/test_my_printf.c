@@ -214,3 +214,40 @@ Test(my_printf, long_unsigned_format_hard2, .init = redirect_all_std)
     my_printf("hello %-020lu\n", 6236788723886773);
     cr_assert_stdout_eq_str("hello 6236788723886773    \n");
 }
+
+Test(my_printf, mixed1, .init = redirect_all_std)
+{
+    my_printf("%s%d%#x", "azdpopaz\tazp", 82939, 99823);
+    cr_assert_stdout_eq_str("azdpopaz\tazp829390x185ef");
+}
+
+Test(my_printf, error_modulo, .init = redirect_all_std)
+{
+    my_printf("%");
+    cr_assert_stdout_eq_str("%");
+}
+
+Test(my_printf, error_flag, .init = redirect_all_std)
+{
+    my_printf("%Vs", "hey");
+    cr_assert_stdout_eq_str("%Vs");
+}
+
+Test(my_printf, weird_modulo1, .init = redirect_all_std)
+{
+    my_printf("%%%%%%");
+    cr_assert_stdout_eq_str("%%%");
+}
+
+Test(my_printf, weird_modulo2, .init = redirect_all_std)
+{
+    my_printf("%+0%%%%-%");
+    cr_assert_stdout_eq_str("%%%");
+}
+
+Test(my_printf, evil_mix, .init = redirect_all_std)
+{
+    my_printf("%ld%s%s%s% d%i%%%c", 6868687876329000001, "hello",
+    "marvin", "", 0, -42, 0);
+    cr_assert_stdout_eq_str("6868687876329000001hellomarvin 0-42%");
+}

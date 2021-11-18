@@ -64,16 +64,20 @@ int format_identifier(const char *format, va_list args, int *written)
 int my_printf_parser(const char *format, va_list args)
 {
     int i = 0;
+    int format_len = 0;
     int written = 0;
     int last_write = 0;
 
-    for (; format[i] != '\0' ; ++i) {
+    while (format[i] != '\0') {
         if (format[i] == '%') {
             write(1, &format[last_write], i - last_write);
             written += i - last_write;
-            i += format_identifier(&format[i + 1], args, &written);
+            format_len = format_identifier(&format[i + 1], args, &written);
+            i += format_len;
             last_write = i;
-        }
+            i += format_len == 0;
+        } else
+            ++i;
     }
     write(1, &format[last_write], i - last_write);
     written += i - last_write;
