@@ -14,7 +14,7 @@
 
 int get_flag_pos(char c);
 arg_type_t get_type(const char *str);
-printf_data_t *create_data_struct();
+printf_data_t *create_data_struct(void);
 int flag_handling(const char *format, printf_data_t *data);
 char *type_handling(const char *format, printf_data_t *data, va_list args);
 int min_width_handling(const char *format, printf_data_t *data, va_list args);

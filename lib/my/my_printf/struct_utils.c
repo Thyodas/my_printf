@@ -30,7 +30,7 @@ arg_type_t get_type(const char *str)
     return (ARG_TYPE_LIST[i]);
 }
 
-printf_data_t *create_data_struct()
+printf_data_t *create_data_struct(void)
 {
     printf_data_t *data = malloc(sizeof(printf_data_t));
 

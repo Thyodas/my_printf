@@ -12,7 +12,7 @@
 
 int get_flag_pos(char c);
 arg_type_t get_type(const char *str);
-printf_data_t *create_data_struct();
+printf_data_t *create_data_struct(void);
 void show_data(printf_data_t *data);
 
 int flag_handling(const char *format, printf_data_t *data)
