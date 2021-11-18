@@ -31,7 +31,7 @@ char *type_handling(const char *format, printf_data_t *data, va_list args)
 
     if (type.sign != NULL) {
         data->str = type.func(args, data);
-        return (1);
+        return (type.len);
     }
     return (0);
 }
