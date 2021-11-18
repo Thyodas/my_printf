@@ -6,7 +6,7 @@
 */
 
 #ifndef FLAGS_H_
-#define FLAGS_H_
+    #define FLAGS_H_
 
     #include "my_printf.h"
 

@@ -6,7 +6,7 @@
 */
 
 #ifndef ARG_TYPE_H_
-#define ARG_TYPE_H_
+    #define ARG_TYPE_H_
 
     #include "my_printf.h"
     #include <stdarg.h>

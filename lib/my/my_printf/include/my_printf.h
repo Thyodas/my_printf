@@ -6,7 +6,7 @@
 */
 
 #ifndef MY_PRINTF_H_
-#define MY_PRINTF_H_
+    #define MY_PRINTF_H_
 
     #include <unistd.h>
     typedef struct printf_data_s {
