@@ -58,11 +58,15 @@ int min_width_handling(const char *format, printf_data_t *data, va_list args)
 int precision_handling(const char *format, printf_data_t *data, va_list args)
 {
     int len = get_nbr_len(&format[1]);
+    int value = 0;
 
-    if (format[0] != '.' || len <= 0)
+    if (format[0] != '.')
         return (0);
-    int value = my_getnbr(&format[1]);
+    if (len == 0)
+        value = 0;
+    else
+        value = my_getnbr(&format[1]);
 
-    data->precision = value;
+    data->precision = value <= 6 && value >= 0 ? value : 6;
     return (len + 1);
 }

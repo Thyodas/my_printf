@@ -177,3 +177,10 @@ Test(my_printf, int_blank_padding_positive, .init = redirect_all_std)
     my_printf("hello %+ 10d\n", 1234);
     cr_assert_stdout_eq_str("hello      +1234\n");
 }
+
+Test(my_printf, float_basic, .init = redirect_all_std)
+{
+    float test = 1234.1234;
+    my_printf("%10.10f\n", test);
+    cr_assert_stdout_eq_str("1234.123413\n");
+}
