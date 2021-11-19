@@ -27,7 +27,7 @@ int show_data(printf_data_t *data)
 
     if (data->active_flags[F_POS_LEFT_JUSTIFY])
         my_putstr(data->str);
-    if (!data->active_flags[F_POS_LEFT_JUSTIFY]
+    if (!data->active_flags[F_POS_LEFT_JUSTIFY] && data->precision == -1
     && data->active_flags[F_POS_ZERO_PADDED] && data->is_nb) {
         if (data->str[0] == '+' || data->str[0] == '-'
         || data->str[0] == ' ') {
