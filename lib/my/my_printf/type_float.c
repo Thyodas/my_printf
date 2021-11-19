@@ -54,11 +54,13 @@ char *type_float(va_list args, printf_data_t *data)
     double value = va_arg(args, double);
     char *result = my_strdup("");
     int round_int = 0;
+    int precision = data->precision == -1 ? 6 : data->precision;
+    precision = MIN(precision, 6);
 
-    if (data->precision == 0) {
+    if (precision == 0) {
         round_int = (int)(value * 10) % 10 >= 5;
     } else {
-        result = my_strfloat_decimal(value, result, data->precision);
+        result = my_strfloat_decimal(value, result, precision);
         result = my_addchar(result, '.');
     }
 

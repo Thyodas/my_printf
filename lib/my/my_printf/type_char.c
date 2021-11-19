@@ -11,7 +11,17 @@
 
 char *type_string(va_list args, printf_data_t *data)
 {
-    return (va_arg(args, char *));
+    char *value = va_arg(args, char *);
+    char *new_str = value;
+
+    if (data->precision != -1) {
+        int new_size = MIN(my_strlen(value), data->precision);
+        new_str = malloc(sizeof(char) * (new_size + 1));
+
+        for (int i = 0 ; i < new_size ; ++i)
+            new_str[i] = value[i];
+    }
+    return (new_str);
 }
 
 char *type_char(va_list args, printf_data_t *data)

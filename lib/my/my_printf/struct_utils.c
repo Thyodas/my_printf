@@ -38,7 +38,7 @@ printf_data_t *create_data_struct(void)
         data->active_flags[i] = 0;
     data->str = "";
     data->min_field_width = 0;
-    data->precision = 6;
+    data->precision = -1;
     data->is_nb = 0;
     return (data);
 }

@@ -67,6 +67,6 @@ int precision_handling(const char *format, printf_data_t *data, va_list args)
     else
         value = my_getnbr(&format[1]);
 
-    data->precision = value <= 6 && value >= 0 ? value : 6;
+    data->precision = value;
     return (len + 1);
 }

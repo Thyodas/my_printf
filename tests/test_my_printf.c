@@ -185,6 +185,48 @@ Test(my_printf, float_basic, .init = redirect_all_std)
     cr_assert_stdout_eq_str("1234.123413\n");
 }
 
+Test(my_printf, float_basic2, .init = redirect_all_std)
+{
+    float test = 189.238183;
+    my_printf("%f", test);
+    cr_assert_stdout_eq_str("189.238190");
+}
+
+Test(my_printf, float_basic3, .init = redirect_all_std)
+{
+    float test = 1239.623;
+    my_printf("%.f", test);
+    cr_assert_stdout_eq_str("1240");
+}
+
+Test(my_printf, float_basic4, .init = redirect_all_std)
+{
+    float test = 1239.623;
+    my_printf("%.2f", test);
+    cr_assert_stdout_eq_str("1239.62");
+}
+
+Test(my_printf, float_basic5, .init = redirect_all_std)
+{
+    float test = 1239.627;
+    my_printf("%.2f", test);
+    cr_assert_stdout_eq_str("1239.63");
+}
+
+Test(my_printf, float_basic6, .init = redirect_all_std)
+{
+    float test = 1239.627;
+    my_printf("%f", test);
+    cr_assert_stdout_eq_str("1239.626953");
+}
+
+Test(my_printf, float_error, .init = redirect_all_std)
+{
+    float test = 1239.627;
+    my_printf("%.-2f", test);
+    cr_assert_stdout_eq_str("%.-2f");
+}
+
 Test(my_printf, long_format, .init = redirect_all_std)
 {
     my_printf("hello %ld\n", 6236788723886773);
@@ -250,4 +292,41 @@ Test(my_printf, evil_mix, .init = redirect_all_std)
     my_printf("%ld%s%s%s% d%i%%%c", 6868687876329000001, "hello",
     "marvin", "", 0, -42, 0);
     cr_assert_stdout_eq_str("6868687876329000001hellomarvin 0-42%");
+}
+
+Test(my_printf, evil_mix2, .init = redirect_all_std)
+{
+    my_printf("%ld%s%s%c%s% d%i%%%c", 6868687876329000001, "hello",
+    "marvin", 0, "", 0, -42, 0);
+    cr_assert_stdout_eq_str("6868687876329000001hellomarvin 0-42%");
+}
+
+Test(my_printf, str_max_size, .init = redirect_all_std)
+{
+    my_printf("%.3s", "hello");
+    cr_assert_stdout_eq_str("hel");
+}
+
+Test(my_printf, str_max_size2, .init = redirect_all_std)
+{
+    my_printf("%.sa", "hello");
+    cr_assert_stdout_eq_str("a");
+}
+
+Test(my_printf, str_max_size3, .init = redirect_all_std)
+{
+    my_printf("%.10sa", "hello world");
+    cr_assert_stdout_eq_str("hello worla");
+}
+
+Test(my_printf, str_max_size4, .init = redirect_all_std)
+{
+    my_printf("%.100000sa", "hello world");
+    cr_assert_stdout_eq_str("hello worlda");
+}
+
+Test(my_printf, str_min_max_size, .init = redirect_all_std)
+{
+    my_printf("%10.sa", "hello");
+    cr_assert_stdout_eq_str("          a");
 }
