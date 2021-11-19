@@ -301,6 +301,18 @@ Test(my_printf, evil_mix2, .init = redirect_all_std)
     cr_assert_stdout_eq_str("6868687876329000001hellomarvin 0-42%");
 }
 
+Test(my_printf, evil_mix3, .init = redirect_all_std)
+{
+    my_printf("fizz: %fbuzz%d%+10.2d%.2s", 123322.1, -100, 2, "marvin");
+    cr_assert_stdout_eq_str("fizz: 123322.100000buzz-100       +02ma");
+}
+
+Test(my_printf, evil_mix4_octal_precision, .init = redirect_all_std)
+{
+    my_printf("fizz: %fbuzz%d%+10.10o%.2s", 123322.1, -100, 2222, "marvin");
+    cr_assert_stdout_eq_str("fizz: 123322.100000buzz-1000000004256ma");
+}
+
 Test(my_printf, str_max_size, .init = redirect_all_std)
 {
     my_printf("%.3s", "hello");

@@ -22,10 +22,14 @@
     #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
     char get_sign_char(int is_neg, printf_data_t *data);
-    char *my_strulong_base(unsigned long nbr, char *str, char const *base);
-    char *my_strlong_base(long nbr, char *str, char const *base);
-    char *my_struint_base(unsigned int nbr, char *str, char const *base);
-    char *my_strint_base(int nbr, char *str, char const *base);
+    char *my_strulong_base(unsigned long nbr, char *str, char const *base,
+    int precision);
+    char *my_strlong_base(long nbr, char *str, char const *base,
+    int precision);
+    char *my_struint_base(unsigned int nbr, char *str, char const *base,
+    int precision);
+    char *my_strint_base(int nbr, char *str, char const *base,
+    int precision);
     char *my_addchar(char *src, char c);
 
 #endif /* !MY_PRINTF_H_ */

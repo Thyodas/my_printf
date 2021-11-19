@@ -15,7 +15,7 @@ char *type_decimal(va_list args, printf_data_t *data)
     char *result = my_strdup("");
 
     data->is_nb = 1;
-    result = my_strint_base(value, result, "0123456789");
+    result = my_strint_base(value, result, "0123456789", data->precision);
     result = my_addchar(result, get_sign_char(value < 0, data));
     my_revstr(result);
     return (result);
@@ -27,7 +27,7 @@ char *type_unsigned_int(va_list args, printf_data_t *data)
     char *result = my_strdup("");
 
     data->is_nb = 1;
-    result = my_struint_base(value, result, "0123456789");
+    result = my_struint_base(value, result, "0123456789", data->precision);
     my_revstr(result);
     return (result);
 }
@@ -38,7 +38,7 @@ char *type_long(va_list args, printf_data_t *data)
     char *result = my_strdup("");
 
     data->is_nb = 1;
-    result = my_strlong_base(value, result, "0123456789");
+    result = my_strlong_base(value, result, "0123456789", data->precision);
     result = my_addchar(result, get_sign_char(value < 0, data));
     my_revstr(result);
     return (result);
@@ -50,7 +50,7 @@ char *type_unsigned_long(va_list args, printf_data_t *data)
     char *result = my_strdup("");
 
     data->is_nb = 1;
-    result = my_strulong_base(value, result, "0123456789");
+    result = my_strulong_base(value, result, "0123456789", data->precision);
     my_revstr(result);
     return (result);
 }
