@@ -52,7 +52,8 @@ SRC = lib/my/check_overflow.c \
 	  lib/my/my_printf/type_num.c \
 	  lib/my/my_printf/type_utils.c \
 	  lib/my/my_printf/printf_handling.c \
-	  lib/my/my_printf/type_float.c
+	  lib/my/my_printf/type_float.c \
+	  lib/my/my_printf/str_utils.c
 
 TEST_FILES = tests/test_my_printf.c
 
