@@ -355,3 +355,36 @@ Test(my_printf, str_min_max_size, .init = redirect_all_std)
     my_printf("%10.sa", "hello");
     cr_assert_stdout_eq_str("          a");
 }
+
+Test(my_printf, hex_special, .init = redirect_all_std)
+{
+    my_printf("%#+021.20x\n", 12344);
+    cr_assert_stdout_eq_str("0x00000000000000003038\n");
+}
+
+Test(my_printf, multiple_tests, .init = redirect_all_std)
+{
+    my_printf("Characters: %c %c \n", 'a', 65);
+    my_printf("Decimals: %d %ld \n", 1977, 650000L);
+    my_printf("Preceding with blanks: %10d \n", 1977);
+    my_printf("Preceding with zeros: %010d \n", 1977);
+    my_printf("Some different radices: %d %x %o %#x %#o \n", 100,
+    100, 100, 100, 100);
+    my_printf("floats: %4.2f %+.0f %f \n", 3.1416, 3.1416, 3.1416);
+    my_printf("Width trick: %5d \n", 10);
+    my_printf("%s \n", "A string");
+    cr_assert_stdout_eq_str("Characters: a A \n\
+Decimals: 1977 650000 \n\
+Preceding with blanks:       1977 \n\
+Preceding with zeros: 0000001977 \n\
+Some different radices: 100 64 144 0x64 0144 \n\
+floats: 3.14 +3 3.141600 \n\
+Width trick:    10 \n\
+A string \n");
+}
+
+Test(my_printf, float_negative, .init = redirect_all_std)
+{
+    my_printf("%0+10.2f\n", -12344.2);
+    cr_assert_stdout_eq_str("-012344.20\n");
+}

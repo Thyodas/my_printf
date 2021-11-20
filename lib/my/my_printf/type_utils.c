@@ -106,4 +106,5 @@ char get_sign_char(int is_neg, printf_data_t *data)
         if (data->active_flags[F_POS_BLANK_POSITIVE])
             return (' ');
     }
+    return ('\0');
 }

@@ -55,16 +55,20 @@ char *type_float(va_list args, printf_data_t *data)
     char *result = my_strdup("");
     int round_int = 0;
     int precision = data->precision == -1 ? 6 : data->precision;
-    precision = MIN(precision, 6);
+    int is_neg = value < 0;
 
+    value = is_neg ? -value : value;
+    data->is_nb = 1;
+    precision = MIN(precision, 6);
     if (precision == 0) {
         round_int = (int)(value * 10) % 10 >= 5;
     } else {
         result = my_strfloat_decimal(value, result, precision);
         result = my_addchar(result, '.');
     }
-
     result = my_strfloat_int(value, result, round_int);
+    result = my_addchar(result, get_sign_char(is_neg, data));
+    data->precision = -1;
     my_revstr(result);
     return (result);
 }
