@@ -430,3 +430,21 @@ Test(my_printf, hexa_0_before_prefix, .init = redirect_all_std)
     my_printf("vhello %+#07x\n", 255);
     cr_assert_stdout_eq_str("vhello 0x000ff\n");
 }
+
+Test(my_printf, hexa_nb0_prefix, .init = redirect_all_std)
+{
+    my_printf("fhello %#+07x\n", 0);
+    cr_assert_stdout_eq_str("fhello 0000000\n");
+}
+
+Test(my_printf, hexa_nb0_prefix_precision0, .init = redirect_all_std)
+{
+    my_printf("fhello %#+07.x\n", 0);
+    cr_assert_stdout_eq_str("fhello        \n");
+}
+
+Test(my_printf, decimal_zero_plus, .init = redirect_all_std)
+{
+    my_printf("fhello %+.10d\n", 0);
+    cr_assert_stdout_eq_str("fhello +0000000000\n");
+}

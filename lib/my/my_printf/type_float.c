@@ -37,7 +37,7 @@ char *my_strfloat_decimal(double nbr, char *str, int precision)
     unsigned int remainder = 0;
     char *str_ptr = str;
 
-    if (nbr == 0)
+    if (nbr == 0 && precision == -1)
         return (my_addchar(str, '0'));
     while (new_nbr != 0 || precision > 0) {
         remainder = (new_nbr + carry) % 10;

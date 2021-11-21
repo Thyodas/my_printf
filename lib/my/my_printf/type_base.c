@@ -18,7 +18,7 @@ char *type_octal(va_list args, printf_data_t *data)
     data->is_nb = 1;
     result = my_struint_base(value, result, "01234567",
     data->precision);
-    if (data->active_flags[F_POS_PREFIX]) {
+    if (data->active_flags[F_POS_PREFIX] && value != 0) {
         result = my_addchar(result, '0');
         data->prefix_len = 1;
     }
@@ -34,7 +34,7 @@ char *type_hexa(va_list args, printf_data_t *data)
     data->is_nb = 1;
     result = my_struint_base(value, result, "0123456789abcdef",
     data->precision);
-    if (data->active_flags[F_POS_PREFIX]) {
+    if (data->active_flags[F_POS_PREFIX] && value != 0) {
         result = my_addchar(result, 'x');
         result = my_addchar(result, '0');
         data->prefix_len = 2;
@@ -51,7 +51,7 @@ char *type_hexa_upper(va_list args, printf_data_t *data)
     data->is_nb = 1;
     result = my_struint_base(value, result, "0123456789ABCDEF",
     data->precision);
-    if (data->active_flags[F_POS_PREFIX]) {
+    if (data->active_flags[F_POS_PREFIX] && value != 0) {
         result = my_addchar(result, 'X');
         result = my_addchar(result, '0');
         data->prefix_len = 2;

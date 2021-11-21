@@ -19,8 +19,8 @@ char *my_strint_base(int nbr, char *str, char const *base, int precision)
     int remainder = 0;
     char *str_ptr = str;
 
-    if (nbr == 0 && precision != 0)
-        return (my_addchar(str, '0'));
+    if (nbr == 0 && precision == -1)
+        return (my_addchar(str_ptr, base[0]));
     while (new_nbr != 0 || precision > 0) {
         remainder = ABS(new_nbr % len_base);
         new_nbr /= len_base;
@@ -38,8 +38,8 @@ int precision)
     unsigned int remainder = 0;
     char *str_ptr = str;
 
-    if (nbr == 0 && precision != 0)
-        return (my_addchar(str, '0'));
+    if (nbr == 0 && precision == -1)
+        return (my_addchar(str_ptr, base[0]));
     while (new_nbr != 0 || precision > 0) {
         remainder = new_nbr % len_base;
         new_nbr /= len_base;
@@ -56,8 +56,8 @@ char *my_strlong_base(long nbr, char *str, char const *base, int precision)
     long remainder = 0;
     char *str_ptr = str;
 
-    if (nbr == 0 && precision != 0)
-        return (my_addchar(str, '0'));
+    if (nbr == 0 && precision == -1)
+        return (my_addchar(str_ptr, base[0]));
     while (new_nbr != 0 || precision > 0) {
         remainder = ABS(new_nbr % len_base);
         new_nbr /= len_base;
@@ -75,8 +75,8 @@ int precision)
     unsigned long remainder = 0;
     char *str_ptr = str;
 
-    if (nbr == 0 && precision != 0)
-        return (my_addchar(str, '0'));
+    if (nbr == 0 && precision == -1)
+        return (my_addchar(str_ptr, base[0]));
     while (new_nbr != 0 || precision > 0) {
         remainder = new_nbr % len_base;
         new_nbr /= len_base;
