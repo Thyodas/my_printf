@@ -66,6 +66,7 @@
         {"LX", &type_long_hexa_upper, 2},
         {"hd", &type_decimal, 2},
         {"hi", &type_decimal, 2},
+        {"hu", &type_unsigned_int, 2},
         {"ho", &type_octal, 2},
         {"hb", &type_binary, 2},
         {"hx", &type_hexa, 2},
