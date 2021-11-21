@@ -388,3 +388,27 @@ Test(my_printf, float_negative, .init = redirect_all_std)
     my_printf("%0+10.2f\n", -12344.2);
     cr_assert_stdout_eq_str("-012344.20\n");
 }
+
+Test(my_printf, int_zero_precision_zero, .init = redirect_all_std)
+{
+    my_printf("f% +020.d\n", 0);
+    cr_assert_stdout_eq_str("f                   +\n");
+}
+
+Test(my_printf, uint_zero_precision_zero, .init = redirect_all_std)
+{
+    my_printf("f% +020.u\n", 0);
+    cr_assert_stdout_eq_str("f                    \n");
+}
+
+Test(my_printf, long_zero_precision_zero, .init = redirect_all_std)
+{
+    my_printf("f% +020.ld\n", 0);
+    cr_assert_stdout_eq_str("f                   +\n");
+}
+
+Test(my_printf, ulong_zero_precision_zero, .init = redirect_all_std)
+{
+    my_printf("f% +020.lu\n", 0);
+    cr_assert_stdout_eq_str("f                    \n");
+}
