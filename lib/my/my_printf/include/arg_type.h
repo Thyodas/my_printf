@@ -31,6 +31,10 @@
     char *type_float(va_list args, printf_data_t *data);
     char *type_long(va_list args, printf_data_t *data);
     char *type_unsigned_long(va_list args, printf_data_t *data);
+    char *type_long_octal(va_list args, printf_data_t *data);
+    char *type_long_binary(va_list args, printf_data_t *data);
+    char *type_long_hexa(va_list args, printf_data_t *data);
+    char *type_long_hexa_upper(va_list args, printf_data_t *data);
 
     static const arg_type_t ARG_TYPE_LIST[] = {
         {"s", &type_string, 1},
@@ -47,7 +51,25 @@
         {"%", &type_modulo, 1},
         {"f", &type_float, 1},
         {"ld", &type_long, 2},
+        {"li", &type_long, 2},
         {"lu", &type_unsigned_long, 2},
+        {"lo", &type_long_octal, 2},
+        {"lb", &type_long_binary, 2},
+        {"lx", &type_long_hexa, 2},
+        {"lX", &type_long_hexa_upper, 2},
+        {"Ld", &type_long, 2},
+        {"Li", &type_long, 2},
+        {"Lu", &type_unsigned_long, 2},
+        {"Lo", &type_long_octal, 2},
+        {"Lb", &type_long_binary, 2},
+        {"Lx", &type_long_hexa, 2},
+        {"LX", &type_long_hexa_upper, 2},
+        {"hd", &type_decimal, 2},
+        {"hi", &type_decimal, 2},
+        {"ho", &type_octal, 2},
+        {"hb", &type_binary, 2},
+        {"hx", &type_hexa, 2},
+        {"hX", &type_hexa_upper, 2},
         {(void *)NULL, (void *)NULL, 0}
     };
 
