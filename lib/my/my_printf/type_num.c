@@ -13,10 +13,12 @@ char *type_decimal(va_list args, printf_data_t *data)
 {
     int value = va_arg(args, int);
     char *result = my_strdup("");
+    char sign = get_sign_char(value < 0, data);
 
     data->is_nb = 1;
     result = my_strint_base(value, result, "0123456789", data->precision);
-    result = my_addchar(result, get_sign_char(value < 0, data));
+    result = my_addchar(result, sign);
+    data->prefix_len = sign != '\0';
     my_revstr(result);
     return (result);
 }
@@ -36,10 +38,12 @@ char *type_long(va_list args, printf_data_t *data)
 {
     long value = va_arg(args, long);
     char *result = my_strdup("");
+    char sign = get_sign_char(value < 0, data);
 
     data->is_nb = 1;
     result = my_strlong_base(value, result, "0123456789", data->precision);
-    result = my_addchar(result, get_sign_char(value < 0, data));
+    result = my_addchar(result, sign);
+    data->prefix_len = sign != '\0';
     my_revstr(result);
     return (result);
 }

@@ -11,6 +11,7 @@
     #include <unistd.h>
     typedef struct printf_data_s {
         char *str;
+        int prefix_len;
         int min_field_width;
         int precision;
         int is_nb;

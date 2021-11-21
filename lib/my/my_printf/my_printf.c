@@ -20,6 +20,12 @@ int type_handling(const char *format, printf_data_t *data, va_list args);
 int min_width_handling(const char *format, printf_data_t *data, va_list args);
 int precision_handling(const char *format, printf_data_t *data, va_list args);
 
+void replace_n_char(char *str, char c, int n)
+{
+    for (int i = 0 ; str[i] != '\0' && i < n ; ++i)
+        str[i] = c;
+}
+
 int show_data(printf_data_t *data)
 {
     int i = 0;
@@ -29,12 +35,9 @@ int show_data(printf_data_t *data)
         my_putstr(data->str);
     if (!data->active_flags[F_POS_LEFT_JUSTIFY] && data->precision == -1
     && data->active_flags[F_POS_ZERO_PADDED] && data->is_nb) {
-        if (data->str[0] == '+' || data->str[0] == '-'
-        || data->str[0] == ' ') {
-            i++;
-            my_putchar(data->str[0]);
-            data->str[0] = '0';
-        }
+        i += data->prefix_len;
+        write(1, data->str, data->prefix_len);
+        data->str += data->prefix_len;
         symbol = '0';
     }
     for (; i < data->min_field_width - my_strlen(data->str) ; ++i)

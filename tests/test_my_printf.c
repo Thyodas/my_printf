@@ -412,3 +412,21 @@ Test(my_printf, ulong_zero_precision_zero, .init = redirect_all_std)
     my_printf("f% +020.lu\n", 0);
     cr_assert_stdout_eq_str("f                    \n");
 }
+
+Test(my_printf, hexa_0_before, .init = redirect_all_std)
+{
+    my_printf("f% +020x\n", 0);
+    cr_assert_stdout_eq_str("f00000000000000000000\n");
+}
+
+Test(my_printf, hexa_0_before2, .init = redirect_all_std)
+{
+    my_printf("f% +020x\n", 10);
+    cr_assert_stdout_eq_str("f0000000000000000000a\n");
+}
+
+Test(my_printf, hexa_0_before_prefix, .init = redirect_all_std)
+{
+    my_printf("vhello %+#07x\n", 255);
+    cr_assert_stdout_eq_str("vhello 0x000ff\n");
+}

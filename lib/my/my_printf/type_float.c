@@ -54,12 +54,11 @@ char *type_float(va_list args, printf_data_t *data)
     double value = va_arg(args, double);
     char *result = my_strdup("");
     int round_int = 0;
-    int precision = data->precision == -1 ? 6 : data->precision;
+    int precision = MIN(data->precision == -1 ? 6 : data->precision, 6);
     int is_neg = value < 0;
 
     value = is_neg ? -value : value;
     data->is_nb = 1;
-    precision = MIN(precision, 6);
     if (precision == 0) {
         round_int = (int)(value * 10) % 10 >= 5;
     } else {
@@ -68,6 +67,7 @@ char *type_float(va_list args, printf_data_t *data)
     }
     result = my_strfloat_int(value, result, round_int);
     result = my_addchar(result, get_sign_char(is_neg, data));
+    data->prefix_len = get_sign_char(is_neg, data) != '\0';
     data->precision = -1;
     my_revstr(result);
     return (result);

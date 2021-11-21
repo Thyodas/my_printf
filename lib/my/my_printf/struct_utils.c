@@ -37,6 +37,7 @@ printf_data_t *create_data_struct(void)
     for (int i = 0 ; i < 5 ; ++i)
         data->active_flags[i] = 0;
     data->str = "";
+    data->prefix_len = 0;
     data->min_field_width = 0;
     data->precision = -1;
     data->is_nb = 0;
