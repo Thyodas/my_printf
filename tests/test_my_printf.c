@@ -5,7 +5,6 @@
 ** test_my_printf
 */
 
-
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 #include "my.h"
@@ -447,4 +446,25 @@ Test(my_printf, decimal_zero_plus, .init = redirect_all_std)
 {
     my_printf("fhello %+.10d\n", 0);
     cr_assert_stdout_eq_str("fhello +0000000000\n");
+}
+
+Test(my_printf, mix_ld_lu_s, .init = redirect_all_std)
+{
+    my_printf("v%+ -#10.3s%-+ #lu%012ld\n", "tes", -280329803982,
+    -280329803982);
+    cr_assert_stdout_eq_str("vtes       18446743793379747634-280329803982\n");
+}
+
+Test(my_printf, modulo2, .init = redirect_all_std)
+{
+    my_printf("%# 0+-30%\n");
+    cr_assert_stdout_eq_str("%\n");
+}
+
+Test(my_printf, S_type, .init = redirect_all_std)
+{
+    char str[] = {'b', 'a', 10, 'l', 'k', 0};
+
+    my_printf("%-4SP\n", str);
+    cr_assert_stdout_eq_str("ba\\012lkP\n");
 }

@@ -69,5 +69,6 @@ char *type_modulo(va_list args, printf_data_t *data)
 {
     char *result = my_strdup("%");
 
+    data->min_field_width = 0;
     return (result);
 }
