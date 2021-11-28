@@ -468,3 +468,27 @@ Test(my_printf, S_type, .init = redirect_all_std)
     my_printf("%-4SP\n", str);
     cr_assert_stdout_eq_str("ba\\012lkP\n");
 }
+
+Test(my_printf, asterisk_precision, .init = redirect_all_std)
+{
+    my_printf("%.*s\n", 4, "marvin");
+    cr_assert_stdout_eq_str("marv\n");
+}
+
+Test(my_printf, asterisk_width, .init = redirect_all_std)
+{
+    my_printf("%*s\n", -10, "marvin");
+    cr_assert_stdout_eq_str("marvin    \n");
+}
+
+Test(my_printf, asterisk_width2, .init = redirect_all_std)
+{
+    my_printf("%*s\n", 10, "marvin");
+    cr_assert_stdout_eq_str("    marvin\n");
+}
+
+Test(my_printf, asterisk_width_precision, .init = redirect_all_std)
+{
+    my_printf("%*.*s\n", 10, 4, "marvin");
+    cr_assert_stdout_eq_str("      marv\n");
+}
