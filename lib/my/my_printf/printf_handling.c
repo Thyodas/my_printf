@@ -49,7 +49,8 @@ int min_width_handling(const char *format, printf_data_t *data, va_list args)
 {
     if (format[0] == '*') {
         data->min_field_width = va_arg(args, int);
-        data->active_flags[F_POS_LEFT_JUSTIFY] = data->min_field_width < 0;
+        if (data->min_field_width < 0)
+            data->active_flags[F_POS_LEFT_JUSTIFY] = 1;
         data->min_field_width = ABS(data->min_field_width);
         return (1);
     }
